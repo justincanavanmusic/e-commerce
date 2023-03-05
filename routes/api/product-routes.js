@@ -1,27 +1,27 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
-// The `/api/products` endpoint
+//imports these Classes from the /models folder. We de-structured so we are able to access each model individually and assign them to a variable.
 
-// get all products
+// get all Products from the seeds once they are implemented. with the include, we are also including the associated Category and Tag objects.
+//once we have all of the information, it's stored in allProductData and then displayed as a json object on the browser
 router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+ 
   Product.findAll(
     {
     include: [
-      
      { model: Category },
      { model: Tag }
-    
     ]
   }
   ).then((allProductData) => {
+    // console.log(typeof allProductData)
     res.json(allProductData);
   });
 });
 
-// get one product
+// allows us to access one product by searching for the associated id number, using the :id parameter and the findOne method
+//the where statement tells us that if the id in the endpoint matches an id in the database to display that matching product in the response as a json object
 router.get('/:id', (req, res) => {
   Product.findOne(
     {
@@ -30,35 +30,29 @@ router.get('/:id', (req, res) => {
       },
     }
   ).then((productData) => {
+    // console.log(typeof productData);
     res.json(productData);
   });
 });
 
-// create new product
+// this post request gives the criteria to make a new Product object. if the correct criteria is given, create a new Product object and send a json object with the new Product as a response
+
 router.post('/', async (req, res) => {
 
   try {
     const productData = await Product.create({
-       //do i put id in here?
+      
       product_name : req.body.product_name,
       price : req.body.price,
       stock : req.body.stock,
-       //do i put category_id in here?
-     
+      
     });
+    console.log(productData)
     res.status(200).json(productData);
   } catch (err) {
     res.status(400).json(err);
   }
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]  why tagIds?
-    }
-    
-  */
+
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -123,8 +117,10 @@ router.put('/:id', (req, res) => {
     });
 });
 
+//find a Product by its id.. if it the id number in the parameter matches something in the database, .destroy will delete that object and its associated information. 
+// if the given id does not exist (!productData), send a 404 message. if there is a match, send a json object containing productData in the response. 
 router.delete('/:id', async (req, res) => {
-  // delete one product by its `id` value
+
   try {
     const productData = await Product.destroy({
       where: {

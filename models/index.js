@@ -4,12 +4,12 @@ const Category = require('./Category');
 const Tag = require('./Tag');
 const ProductTag = require('./ProductTag');
 
-// Products belongsTo Category
+//here we used the belongsTo method .. each Product object can belong to only one Category object. since Category can contain multiple Products, Product and Category have a "one-to-many" relationship
 Product.belongsTo(Category, {
   foreignKey: 'category_id',
 });
 
-// Categories have many Products
+//in the database we used the hasMany method to state that a Category can contain more than one Product. For example at this moment in my database there is one category titled "Shirts" which is unique. Within that Category I have 5 different Product objects, hence the ONE (Category) to MANY (Products)
 Category.hasMany(Product, {
   foreignKey: 'category_id',
   onDelete: 'CASCADE',
