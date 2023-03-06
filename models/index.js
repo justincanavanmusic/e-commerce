@@ -15,7 +15,7 @@ Category.hasMany(Product, {
   onDelete: 'CASCADE',
 });
 
-// Products belongToMany Tags (through ProductTag)
+// in these two relationships, a Product can contain many Tags and a Tag can contain many Products, resulting in a many-to-many relationship. each class "goes through" the ProductTag class which acts as a middleman to connect the two classes. product_id from the ProductTag class connects to the Product Class id and the same with Tag. This allows us to use the ProductTag to retrieve the Tags associated with a specific Product or all Products associated with a specific Tag
 Product.belongsToMany(Tag,
  { through: ProductTag,
   foreignKey: 'product_id'

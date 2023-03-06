@@ -33,6 +33,7 @@ Product.init(
         isNumeric: true
       }
   },
+//using the category_id (which is referencing the id from the Category table) allows us to have a connection from the two tables (Category and Products). this number is going to tell us the CATEGORY that each PRODUCT belongs to. for example in "id: 1", the product_name is "Plain T-Shirt". within the products table... the category_id and category.id are matching and both equal to 1. and connected to that category id is the category_name of "Shirts" which is the proper category for the Product "Plain T-Shirt"
     category_id: {
       type: DataTypes.INTEGER,
       references: {

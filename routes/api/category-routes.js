@@ -5,7 +5,7 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
 // get all Categories from the seeds once they are implemented. with the include, we are also including the associated Product object(s).
-//once we have all of the information, it's stored in allCategoryData and then displayed as a json object on the browser
+//once we have all of the information, it's stored in allCategoryData object and then displayed as a json object on the browser
   Category.findAll(
     {
     include: [{ model: Product }]
@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => {
       where: { 
         id: req.params.id 
       },
-      include: [{model: Product }]
+      include: [{ model: Product }]
     }
   ).then((categoryDataId) => {
     res.json(categoryDataId);

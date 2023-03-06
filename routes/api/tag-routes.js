@@ -1,19 +1,22 @@
 const router = require('express').Router();
 const { Tag, Product, ProductTag } = require('../../models');
 
-// The `/api/tags` endpoint
+// get all Tags from the seeds once they are implemented. with the include, we are also including the associated Tag object(s).
+//once we have all of the information, it's stored in the allTagData object and then displayed as a json object on the browser
 
 router.get('/', (req, res) => {
-  // find all tags
-  // be sure to include its associated Product data
   Tag.findAll(
     {
     include: [{ model: Product }]
   }
   ).then((allTagData) => {
+    console.log(typeof allTagData)
     res.json(allTagData);
   });
 });
+
+// allows us to access one Tag by searching for the associated id number, using the :id parameter and the findOne method
+//the where statement tells us that if the id in the endpoint matches an id in the database to display that matching Tag in the response as a json object
 
 router.get('/:id', (req, res) => {
   Tag.findOne(
@@ -21,17 +24,17 @@ router.get('/:id', (req, res) => {
       where: { 
         id: req.params.id 
       },
-      include: {
-        model: Product
-      }
+      include: 
+      [{ model: Product }]
     }
   ).then((tagData) => {
     res.json(tagData);
   });
 });
+// this post request gives the criteria to make a new Tag object. if the correct criteria is given, create a new Tag object and send a json object with the new Tag as a response
 
 router.post('/', async (req, res) => {
-  // create a new tag
+ 
   try {
     const tagData = await Tag.create({
       tag_name : req.body.tag_name

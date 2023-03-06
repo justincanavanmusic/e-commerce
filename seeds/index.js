@@ -5,6 +5,8 @@ const seedProductTags = require('./product-tag-seeds');
 
 const sequelize = require('../config/connection');
 
+//when node seeds/index.js is called, all of these functions are called and the seeds are planted in each database asynchronously
+
 const seedAll = async () => {
   await sequelize.sync({ force: true });
   console.log('\n----- DATABASE SYNCED -----\n');

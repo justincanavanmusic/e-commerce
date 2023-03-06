@@ -18,6 +18,7 @@ const categoryData = [
   },
 ];
 
+//the seedCategories function creates 5 instances of the Category model at once, using the categoryData printed above. 
 const seedCategories = () => Category.bulkCreate(categoryData);
 
 module.exports = seedCategories;
